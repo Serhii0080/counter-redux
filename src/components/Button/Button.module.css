@@ -1,0 +1,23 @@
+.button {
+  color: #2b2f3a;
+  font-size: 40px;
+  font-weight: 700;
+  background-color: #5bc0de;
+  border-radius: 15px;
+  border: none;
+  padding: 0 20px;
+  transition:
+    background-color 0.5s,
+    color 0.1s;
+  cursor: pointer;
+}
+
+.button:not(:disabled):active {
+  color: #5bc0de;
+  background-color: #2b2f3a;
+}
+
+.button:disabled {
+  cursor: default;
+  opacity: 30%;
+}

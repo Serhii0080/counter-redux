@@ -1,0 +1,53 @@
+.counter {
+  padding: 15px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border: 3px solid #5bc0de;
+  border-radius: 10px;
+}
+
+.display {
+  min-height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  background-color: #2b2f3a;
+  border-radius: 10px;
+  border: 3px solid #5bc0de;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 3px solid #5bc0de;
+  border-radius: 10px;
+  padding: 18px 25px;
+}
+
+.displayMessage {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2bc0de;
+}
+
+.displayError {
+  color: rgb(194, 22, 22);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.displayCount {
+  color: #5bc0de;
+  font-size: 60px;
+  font-weight: 700;
+}
+
+.displayMaxCount {
+  color: rgb(194, 22, 22);
+  font-size: 70px;
+  font-weight: 700;
+}
