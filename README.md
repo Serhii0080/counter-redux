@@ -1,29 +1,19 @@
-# IT-INCUBATOR Counter Project
+# Counter Project
 
-## React + TypeScript + Vite
+React + TypeScript + Vite
 
-Counter application with settings.
+Educational counter project built with Redux Toolkit and settings management.
 
-## Getting Started
-
-### 1. Install dependencies:
+## Start
 
 ```bash
-pnpm i
-```
-
-### 2. Start app:
-
-```bash
-pnpm dev
+pnpm run dev
 ```
 
 Open http://localhost:3000 with your browser to see the result.
 
-### Deploy
+## Deploy
 
 ```bash
 pnpm run deploy
 ```
-
-Happy hacking 🚀
