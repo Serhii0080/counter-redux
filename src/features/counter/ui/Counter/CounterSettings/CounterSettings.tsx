@@ -1,32 +1,29 @@
-import styles from './CounterSettings.module.css'
-import { Button } from '../../components/Button/Button.tsx'
-import { Input } from '../../components/Input/Input.tsx'
+import { Button } from '@/common/components/Button'
+import { Input } from '@/common/components/Input'
+import { setCountToMinAC } from '@/features/counter/model/counter-reducer'
+import { applyCounterSettingsAC } from '@/features/counter/model/counter-settings-reducer'
 import { ChangeEvent, useState } from 'react'
+import styles from './CounterSettings.module.css'
+import { useAppDispatch } from '@/common/hooks'
 
 type Props = {
-  applyCounterSettings: (minCount: number, maxCount: number) => void
-  setValidationError: (error: string) => void
+  handleDisplayMessageChange: (message: string | null) => void
 }
 
-export const CounterSettings = ({ applyCounterSettings, setValidationError }: Props) => {
-  const [inputMaxValue, setInputMaxValue] = useState<string>(() => {
-    const saveMaxValue = localStorage.getItem('inputMaxValue')
-    return saveMaxValue ?? '5'
-  })
+export const CounterSettings = ({ handleDisplayMessageChange }: Props) => {
+  const [inputMaxValue, setInputMaxValue] = useState<string>('5')
 
-  const [inputMinValue, setInputMinValue] = useState<string>(() => {
-    const saveMinValue = localStorage.getItem('inputMinValue')
-    return saveMinValue ?? '0'
-  })
+  const [inputMinValue, setInputMinValue] = useState<string>('0')
 
   const [isDisabled, setIsDisabled] = useState<boolean>(true)
 
-  const minNumberValue = Number(inputMinValue)
-  const maxNumberValue = Number(inputMaxValue)
+  const dispatch = useAppDispatch()
 
-  const isMaxValueInvalid = maxNumberValue <= minNumberValue ? styles.inputError : ''
-  const isMinValueInvalid =
-    minNumberValue >= maxNumberValue || minNumberValue < 0 || inputMinValue === '' ? styles.inputError : ''
+  const minCount = Number(inputMinValue)
+  const maxCount = Number(inputMaxValue)
+
+  const isMaxValueInvalid = maxCount <= minCount ? styles.inputError : ''
+  const isMinValueInvalid = minCount >= maxCount || minCount < 0 || inputMinValue === '' ? styles.inputError : ''
 
   const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const input = e.currentTarget
@@ -35,33 +32,33 @@ export const CounterSettings = ({ applyCounterSettings, setValidationError }: Pr
     if (maxValue !== inputMaxValue) setInputMaxValue(maxValue)
     if (minValue !== inputMinValue) setInputMinValue(minValue)
     if (minValue === '' || maxValue === '') {
-      setValidationError('Incorrect value!')
+      handleDisplayMessageChange('Incorrect value!')
       setIsDisabled(true)
       return
     }
 
-    const minNumberValue = Number(minValue)
-    const maxNumberValue = Number(maxValue)
-    updateSettingsStatus(minNumberValue, maxNumberValue)
+    const minCount = Number(minValue)
+    const maxCount = Number(maxValue)
+    updateSettingsStatus(minCount, maxCount)
   }
 
   const updateSettingsStatus = (minValue: number, maxValue: number) => {
     const showPressSet = minValue >= 0 && minValue < maxValue
 
     if (showPressSet) {
-      setValidationError(`enter values and press 'set'`)
+      handleDisplayMessageChange(`enter values and press 'set'`)
       setIsDisabled(false)
     } else {
-      setValidationError('Incorrect value!')
+      handleDisplayMessageChange('Incorrect value!')
       setIsDisabled(true)
     }
   }
 
   const onClickHandler = () => {
-    if (minNumberValue >= 0 && minNumberValue < maxNumberValue) {
-      localStorage.setItem('inputMaxValue', inputMaxValue)
-      localStorage.setItem('inputMinValue', inputMinValue)
-      applyCounterSettings(minNumberValue, maxNumberValue)
+    if (minCount >= 0 && minCount < maxCount) {
+      dispatch(applyCounterSettingsAC({ minCount, maxCount }))
+      dispatch(setCountToMinAC({ minCount }))
+      handleDisplayMessageChange(null)
       setIsDisabled(true)
     }
   }
